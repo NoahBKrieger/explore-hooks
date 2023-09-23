@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProductListItem from "../ProductListItem";
 import ProductDetails from "../ProductDetails";
 import './ProductView.css'
@@ -8,6 +8,7 @@ function ProductView({ products }) {
 
   // TODO: Replace with state variable
   const [sideOpen, setSideOpen] = useState(true);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
     <div className="product-view">
@@ -16,9 +17,12 @@ function ProductView({ products }) {
         <div className="product-list">
           {products.map(item =>
             <ProductListItem
+              isSelected={selectedProduct && selectedProduct.id === item.id}
               key={item.id}
               product={item}
-              onClick={() => console.log('SELECT PRODUCT', item)}
+              onClick={() => {
+                setSelectedProduct(item)
+              }}
             />
           )}
         </div>
@@ -30,7 +34,7 @@ function ProductView({ products }) {
             {sideOpen ? '>' : '<'}
           </div>
         </div>
-        <ProductDetails visible={sideOpen} />
+        <ProductDetails visible={sideOpen} product={selectedProduct} />
       </div>
     </div>
   );
